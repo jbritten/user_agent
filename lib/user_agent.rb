@@ -1,5 +1,5 @@
 class UserAgent
-  VERSION = '0.0.1'
+  VERSION = '0.0.2'
   
   attr_reader :browser_name, :browser_version
   attr_reader :os_name, :os_version
@@ -41,6 +41,7 @@ private
   
   def identify_browser
     identify_browser_opera or
+    identify_browser_chrome or
     identify_browser_safari or
     identify_browser_honest or
     identify_browser_compatible or
@@ -105,6 +106,13 @@ private
     end
   end
   
+  def identify_browser_chrome
+    if browser = @products.detect{|product| product[0] == 'Chrome'}
+      @browser_version = browser[1]
+      @browser_name = 'Chrome'
+    end
+  end
+  
   def identify_browser_other
     @browser_version = @products.first[1]
     @browser_name = @products.first[0]
@@ -130,6 +138,7 @@ private
     when /NT 5.0/: '2000'
     when /NT 5.1/: 'XP'
     when /NT 6.0/: 'Vista'
+    when /NT 6.1/: '7'
     end
   end
   
@@ -142,9 +151,10 @@ private
     else
       'Mac OS X'
     end
-    
-    if element =~ /(10_._.)/
-      @os_version = $1.gsub('_','.')
+ 
+    @os_version = case element
+    when /(10.+)/: $1.gsub('_','.')
+    when /(10.+)/: $1
     end
   end
   
