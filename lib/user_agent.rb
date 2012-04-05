@@ -1,5 +1,5 @@
 class UserAgent
-  VERSION = '0.0.2'
+  VERSION = '0.0.3'
   
   attr_reader :browser_name, :browser_version
   attr_reader :os_name, :os_version
@@ -132,13 +132,13 @@ private
     return unless element = @comment_elements.detect{|e| e =~ /^win.*\d/i}
     @os_name = 'Windows'
     @os_version = case element
-    when /98/: '98'
-    when /9x 4.90/: 'ME'
-    when /NT 4.0/: 'NT'
-    when /NT 5.0/: '2000'
-    when /NT 5.1/: 'XP'
-    when /NT 6.0/: 'Vista'
-    when /NT 6.1/: '7'
+    when /98/ then '98'
+    when /9x 4.90/ then 'ME'
+    when /NT 4.0/ then 'NT'
+    when /NT 5.0/ then '2000'
+    when /NT 5.1/ then 'XP'
+    when /NT 6.0/ then 'Vista'
+    when /NT 6.1/ then '7'
     end
   end
   
@@ -153,8 +153,8 @@ private
     end
  
     @os_version = case element
-    when /(10.+)/: $1.gsub('_','.')
-    when /(10.+)/: $1
+    when /(10.+)/ then $1.gsub('_','.')
+    when /(10.+)/ then $1
     end
   end
   
